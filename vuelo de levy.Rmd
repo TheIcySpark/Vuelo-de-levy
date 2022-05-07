@@ -1,0 +1,66 @@
+---
+title: "Vuelo de lévy"
+output: html_notebook
+---
+
+
+por la grafica siguiente podemos ver que es mas probable elegir valores que estan cerca de 0, mientras mas se aleja el valor de 0 es menos probable elejir el valor aleatoriamente
+Grafiaca de distribucion de probabilidades estandar usando Cauchy
+```{r}
+x <- seq(1, 1000, by = 1)
+y <- dcauchy(x, scale = 5)
+plot(y, type = "l")
+```
+
+Se utiliza una con el reloj de la computadora para que sea aleatoria la ejecucion y diferente cada vez, 
+```{r}
+set.seed(Sys.time())
+N <- 1000
+```
+
+Se genenran 1000 valores aleatorios y se guardan en y_rcauchy
+```{r}
+y_rcauchy <- rcauchy(N, scale = 5)
+y_rcauchy
+```
+
+Se genenran 1000 valores aleatorios y se guardan en y_rcauchy2
+```{r}
+y_rcauchy2 <- rcauchy(N, scale = 5)
+y_rcauchy2
+```
+
+Se grafican los valores de y_rcauchy para ver su distribucion
+```{r}
+hist(y_rcauchy,
+     xlim = c(- 200, 200),
+     breaks = 10000,
+     main = "")
+```
+
+Se grafican los valores de y_rcauchy2 para ver su distribucion
+```{r}
+hist(y_rcauchy2,
+     xlim = c(- 200, 200),
+     breaks = 10000,
+     main = "")
+```
+
+Se inicia la posicion en la posicion (0, 0) a partir de aqui a la posicion actual se le suma el vector conformado por y_rcauchy, y_rcauchy2 en el subindice 'i' y se gurdan para generar el vuelo de levy y graficarlo
+```{r}
+px <- 0
+py <- 0
+ax <- c(0)
+ay <- c(0)
+for(i in seq(N)){
+  px = y_rcauchy[i] + px
+  py = y_rcauchy2[i] + py
+  ax <- c(ax, px)
+  ay <- c(ay, py)
+}
+plot(ax, ay, type="l")
+```
+
+
+Conclusiones:
+El vuelo de Lévy puede generar espacios de busqueda basandose en el comportamiento de algunos animales, esta busqueda es aleatoria, estadisticamente la mayoria de pasos que da son pequeños, sin embargo la posibilidad de dar algun paso mas grande de vez en cuando siempre esta latente, de este modo no se queda en un espacio de busqueda local.
